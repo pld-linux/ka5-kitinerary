@@ -5,11 +5,12 @@
 Summary:	kitinerary
 Name:		ka5-%{kaname}
 Version:	19.04.1
-Release:	1
+Release:	2
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/applications/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
 # Source0-md5:	d1e9604ac8dccbb550def3efb1233722
+Patch0:		poppler-0.82.patch
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5Gui-devel
@@ -55,6 +56,7 @@ Pliki nagłówkowe dla programistów używających %{kaname}.
 
 %prep
 %setup -q -n %{kaname}-%{version}
+%patch0 -p1
 
 %build
 install -d build
