@@ -6,7 +6,7 @@ Summary:	KDE Itinerary - digital travel assistent
 Summary(pl.UTF-8):	KDE Itinerary - cyfrowy asystent podróży
 Name:		ka5-%{kaname}
 Version:	20.12.3
-Release:	1
+Release:	2
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
@@ -27,6 +27,8 @@ BuildRequires:	ka5-kmime-devel >= %{kdeappsver}
 BuildRequires:	ka5-kpkpass-devel >= %{kdeappsver}
 BuildRequires:	kf5-extra-cmake-modules >= %{kframever}
 BuildRequires:	kf5-karchive-devel >= %{kframever}
+BuildRequires:	kf5-kcalendarcore-devel >= %{kframever}
+BuildRequires:	kf5-kcontacts-devel >= %{kframever}
 BuildRequires:	kf5-ki18n-devel >= %{kframever}
 BuildRequires:	libphonenumber-devel
 BuildRequires:	libstdc++-devel >= 6:5
