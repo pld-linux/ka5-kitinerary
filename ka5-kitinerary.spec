@@ -1,16 +1,16 @@
-%define		kdeappsver	20.12.3
+%define		kdeappsver	21.04.0
 %define		kframever	5.56.0
 %define		qtver		5.10.0
 %define		kaname		kitinerary
 Summary:	KDE Itinerary - digital travel assistent
 Summary(pl.UTF-8):	KDE Itinerary - cyfrowy asystent podróży
 Name:		ka5-%{kaname}
-Version:	20.12.3
-Release:	2
+Version:	21.04.0
+Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	babaa830f0f47a1e6010e2391a66f7c0
+# Source0-md5:	a3183d705ace19f5c26aa983f086004c
 Patch0:		poppler-0.82.patch
 Patch1:		poppler-0.83.patch
 URL:		https://community.kde.org/KDE_PIM/KDE_Itinerary
@@ -92,14 +92,14 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{kaname}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libexecdir}/kf5/kitinerary-extractor
-%attr(755,root,root) %{_libdir}/libKPimItinerary.so.5.*.*
-%attr(755,root,root) %ghost %{_libdir}/libKPimItinerary.so.5
+%attr(755,root,root) %{_libdir}/libKPimItinerary.so.*.*.*
+%ghost %{_libdir}/libKPimItinerary.so.5
 %{_datadir}/mime/packages/application-vnd-kde-itinerary.xml
 %{_datadir}/qlogging-categories5/org_kde_kitinerary.categories
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libKPimItinerary.so
+%{_libdir}/libKPimItinerary.so
 %{_includedir}/KPim/KItinerary
 %{_includedir}/KPim/kitinerary
 %{_includedir}/KPim/kitinerary_version.h
