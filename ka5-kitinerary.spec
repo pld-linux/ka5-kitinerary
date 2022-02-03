@@ -1,16 +1,16 @@
-%define		kdeappsver	21.12.1
+%define		kdeappsver	21.12.2
 %define		kframever	5.56.0
 %define		qtver		5.10.0
 %define		kaname		kitinerary
 Summary:	KDE Itinerary - digital travel assistent
 Summary(pl.UTF-8):	KDE Itinerary - cyfrowy asystent podróży
 Name:		ka5-%{kaname}
-Version:	21.12.1
+Version:	21.12.2
 Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	0b837f622cf430d52931a9887d9e0ea4
+# Source0-md5:	f66dfb9b40d06c2a74a9572bc29c2809
 Patch0:		poppler-0.82.patch
 Patch1:		poppler-0.83.patch
 URL:		https://community.kde.org/KDE_PIM/KDE_Itinerary
