@@ -1,19 +1,19 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeappsver	22.12.3
+%define		kdeappsver	23.04.0
 %define		kframever	5.94.0
 %define		qtver		5.15.2
 %define		kaname		kitinerary
 Summary:	KDE Itinerary - digital travel assistent
 Summary(pl.UTF-8):	KDE Itinerary - cyfrowy asystent podróży
 Name:		ka5-%{kaname}
-Version:	22.12.3
-Release:	3
+Version:	23.04.0
+Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	ccfc059775497bffa00d2b7b91988078
+# Source0-md5:	766f2f897e3c28e876579a76a8188aa3
 Patch0:		poppler-0.82.patch
 Patch1:		poppler-0.83.patch
 URL:		https://community.kde.org/KDE_PIM/KDE_Itinerary
@@ -102,15 +102,16 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{kaname}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libexecdir}/kf5/kitinerary-extractor
-%attr(755,root,root) %{_libdir}/libKPimItinerary.so.*.*.*
-%ghost %{_libdir}/libKPimItinerary.so.5
 %{_datadir}/mime/packages/application-vnd-kde-itinerary.xml
 %{_datadir}/qlogging-categories5/org_kde_kitinerary.categories
+%ghost %{_libdir}/libKPim5Itinerary.so.5
+%attr(755,root,root) %{_libdir}/libKPim5Itinerary.so.*.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libKPimItinerary.so
-%{_includedir}/KPim/KItinerary
-%{_includedir}/KPim/kitinerary
-%{_includedir}/KPim/kitinerary_version.h
+%{_includedir}/KPim5/KItinerary
+%{_includedir}/KPim5/kitinerary
+%{_includedir}/KPim5/kitinerary_version.h
+%{_libdir}/cmake/KPim5Itinerary
 %{_libdir}/cmake/KPimItinerary
+%{_libdir}/libKPim5Itinerary.so
