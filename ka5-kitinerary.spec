@@ -14,8 +14,7 @@ License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
 # Source0-md5:	8b3216199eef85b2f05e4955f3409199
-Patch0:		poppler-0.82.patch
-Patch1:		poppler-0.83.patch
+Patch0:		kitinerary-poppler24.patch
 URL:		https://community.kde.org/KDE_PIM/KDE_Itinerary
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5Gui-devel
@@ -70,6 +69,7 @@ Pliki nagłówkowe dla programistów używających %{kaname}.
 
 %prep
 %setup -q -n %{kaname}-%{version}
+%patch0 -p1
 
 %build
 %cmake \
@@ -78,6 +78,7 @@ Pliki nagłówkowe dla programistów używających %{kaname}.
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
 	-DHTML_INSTALL_DIR=%{_kdedocdir} \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+
 %ninja_build -C build
 
 %if %{with tests}
