@@ -1,4 +1,3 @@
-# TODO: OsmTools https://gitlab.com/osm-c-tools/osmctools
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
