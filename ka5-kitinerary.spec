@@ -1,9 +1,10 @@
+# TODO: OsmTools https://gitlab.com/osm-c-tools/osmctools
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
 %define		kdeappsver	23.08.5
 %define		kframever	5.94.0
-%define		qtver		5.15.2
+%define		qtver		5.15.14
 %define		kaname		kitinerary
 Summary:	KDE Itinerary - digital travel assistent
 Summary(pl.UTF-8):	KDE Itinerary - cyfrowy asystent podróży
@@ -17,15 +18,13 @@ Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kan
 Patch0:		kitinerary-poppler24.patch
 URL:		https://community.kde.org/KDE_PIM/KDE_Itinerary
 BuildRequires:	Qt5Core-devel >= %{qtver}
-BuildRequires:	Qt5Gui-devel
-BuildRequires:	Qt5Gui-devel
-BuildRequires:	Qt5Network-devel >= 5.11.1
-BuildRequires:	Qt5Qml-devel
-BuildRequires:	Qt5Test-devel
-BuildRequires:	Qt5Test-devel
+BuildRequires:	Qt5Gui-devel >= %{qtver}
+BuildRequires:	Qt5Network-devel >= %{qtver}
+BuildRequires:	Qt5Qml-devel >= %{qtver}
+BuildRequires:	Qt5Test-devel >= %{qtver}
 BuildRequires:	abseil-cpp-devel
 BuildRequires:	cmake >= 3.20
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	ka5-kmime-devel >= %{kdeappsver}
 BuildRequires:	ka5-kpkpass-devel >= %{kdeappsver}
 BuildRequires:	kf5-extra-cmake-modules >= %{kframever}
@@ -34,17 +33,18 @@ BuildRequires:	kf5-kcalendarcore-devel >= %{kframever}
 BuildRequires:	kf5-kcontacts-devel >= %{kframever}
 BuildRequires:	kf5-ki18n-devel >= %{kframever}
 BuildRequires:	libphonenumber-devel
-BuildRequires:	libstdc++-devel >= 6:5
+BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libxml2-devel >= 2
 BuildRequires:	ninja
+BuildRequires:	openssl-devel >= 1.1
 BuildRequires:	poppler-devel
 BuildRequires:	qt5-build >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.605
-BuildRequires:	shared-mime-info
+BuildRequires:	shared-mime-info >= 1.3
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRequires:	zlib-devel
-BuildRequires:	zxing-cpp-devel
+BuildRequires:	zxing-cpp-nu-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -76,7 +76,8 @@ Pliki nagłówkowe dla programistów używających %{kaname}.
 	-B build \
 	-G Ninja \
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
-	-DHTML_INSTALL_DIR=%{_kdedocdir} \
+	-DKDE_INSTALL_DOCBUNDLEDIR=%{_kdedocdir} \
+	-DKDE_INSTALL_SYSCONFDIR=%{_sysconfdir} \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON
 
 %ninja_build -C build
