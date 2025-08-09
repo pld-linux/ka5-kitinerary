@@ -1,0 +1,74 @@
+--- kitinerary-23.08.5/src/lib/pdf/pdfdocument.cpp~	2025-08-09 15:45:23.000000000 +0200
++++ kitinerary-23.08.5/src/lib/pdf/pdfdocument.cpp	2025-08-09 16:00:01.566661895 +0200
+@@ -24,6 +24,10 @@
+ 
+ #include <cmath>
+ 
++#if KPOPPLER_VERSION >= QT_VERSION_CHECK(24, 5, 0)
++#include <poppler/UTF.h>
++#endif
++
+ using namespace KItinerary;
+ 
+ void PdfPagePrivate::load()
+@@ -42,6 +42,7 @@
+     m_doc->m_popplerDoc->processLinks(&device, m_pageNum + 1);
+     device.finalize();
+     const auto pageRect = m_doc->m_popplerDoc->getPage(m_pageNum + 1)->getCropBox();
++#if KPOPPLER_VERSION < QT_VERSION_CHECK(25, 1, 0)
+     std::unique_ptr<GooString> s(device.getText(pageRect->x1, pageRect->y1, pageRect->x2, pageRect->y2));
+ 
+ #if KPOPPLER_VERSION >= QT_VERSION_CHECK(0, 72, 0)
+@@ -49,6 +50,10 @@
+ #else
+     m_text = QString::fromUtf8(s->getCString());
+ #endif
++#else
++    const auto s = device.getText(pageRect->x1, pageRect->y1, pageRect->x2, pageRect->y2);
++    m_text = QString::fromUtf8(s.c_str());
++#endif
+     m_images = std::move(device.m_images);
+     for (auto it = m_images.begin(); it != m_images.end(); ++it) {
+         (*it).d->m_page = this;
+@@ -113,12 +118,17 @@
+ 
+     TextOutputDev device(nullptr, false, 0, false, false);
+     d->m_doc->m_popplerDoc->displayPageSlice(&device, d->m_pageNum + 1, 72, 72, 0, false, true, false, -1, -1, -1, -1);
++#if KPOPPLER_VERSION <QT_VERSION_CHECK(25, 1, 0)
+     std::unique_ptr<GooString> s(device.getText(l, t, r, b));
+ #if KPOPPLER_VERSION >= QT_VERSION_CHECK(0, 72, 0)
+     return QString::fromUtf8(s->c_str());
+ #else
+     return QString::fromUtf8(s->getCString());
+ #endif
++#else
++    const auto s = device.getText(l, t, r, b);
++    return QString::fromUtf8(s.c_str());
++#endif
+ }
+ 
+ int PdfPage::imageCount() const
+@@ -329,12 +333,22 @@ QString gooStringToUnicode(const std::un
+         return {};
+     }
+ 
+-    if (s->hasUnicodeMarker() || s->hasUnicodeMarkerLE()) {
++#if KPOPPLER_VERSION >= QT_VERSION_CHECK(24, 5, 0)
++    if (hasUnicodeByteOrderMark(s->toStr()) || hasUnicodeByteOrderMarkLE(s->toStr()))
++#else
++    if (s->hasUnicodeMarker() || s->hasUnicodeMarkerLE())
++#endif
++    {
+         return QString::fromUtf16(reinterpret_cast<const char16_t*>(s->toStr().c_str()), s->toStr().size() / 2);
+     } else {
++#if KPOPPLER_VERSION >= QT_VERSION_CHECK(25, 2, 0)
++        const auto utf16Data = pdfDocEncodingToUTF16(s->toStr());
++        return QString::fromUtf16(reinterpret_cast<const char16_t *>(utf16Data.c_str()), utf16Data.size() / 2);
++#else
+         int len = 0;
+         std::unique_ptr<const char[]> utf16Data(pdfDocEncodingToUTF16(s->toStr(), &len));
+         return QString::fromUtf16(reinterpret_cast<const char16_t*>(utf16Data.get()), len / 2);
++#endif
+     }
+ 
+     return QString::fromUtf8(s->c_str());
